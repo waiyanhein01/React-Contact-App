@@ -1,64 +1,130 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
 import { ErrorMessage, Form, Formik } from "formik";
-import React from "react";
+import { Loader2 } from "lucide-react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import * as yup from "yup"
+import * as yup from "yup";
+import { useSignInMutation } from "../../store/services/endpoints/apiContact.endpoints";
 
 const signInPage = () => {
+
+  const [fun,data] = useSignInMutation()
   const initialValues = {
     email: "",
     password: "",
   };
 
-  const handleSubmit = (value) => {
-    console.log(value);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleSubmit = async(value) => {
+    await fun(value);
   };
 
   const validationSchema = yup.object({
-    email: yup.string().required("Email is Required").email("Invalid email format"),
-    password: yup.string().required("Password is Required").matches(8,"Password should be longer than 8")
-  })
+    email: yup
+      .string()
+      .required("Email is Required")
+      .email("Invalid email format"),
+    password: yup
+      .string()
+      .required("Password is Required")
+      .matches(8, "Password should be longer than 8"),
+  });
   return (
-    <div className=" w-2/4 h-screen mx-auto flex justify-center items-center">
+    <div className="w-2/4 lg:w-1/3 h-screen mx-auto flex justify-center items-center">
       <div className=" border w-3/4 p-5 rounded-lg gap-5 flex flex-col">
         <div className=" text-center">
           <h1 className=" text-xl font-bold">Sign In</h1>
         </div>
-        <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}>
-          {({ handleChange, handleBlur, values,isSubmitting }) => (
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validationSchema={validationSchema}
+          validateOnBlur={false}
+          validateOnChange={false}
+        >
+          {({ handleChange, handleBlur, values, isSubmitting }) => (
             <>
-              <Form >
-                <label htmlFor="email">Email</label>
-                <input
-                  className=" w-full rounded-lg py-1 ps-2 border outline-none mt-2 mb-2"
-                  type="email"
-                  name="email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.email}
-                />
-                <ErrorMessage name="email" component="p" className=" text-sm text-red-500"/>
+              <Form>
+                <div className=" mb-5">
+                  <FormControl className=" w-full mb-5" variant="outlined">
+                    <InputLabel htmlFor="email" size="small">
+                      Email
+                    </InputLabel>
+                    <OutlinedInput
+                      size="small"
+                      id="email"
+                      name="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                      label="Email"
+                    />
+                  </FormControl>
 
-                <label htmlFor="password">Password</label>
-                <input
-                  className=" w-full rounded-lg py-1 ps-2 border outline-none mt-2"
-                  type="password"
-                  name="password"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                />
-                <ErrorMessage name="password" component="p" className=" text-sm text-red-500"/>
+                  <ErrorMessage
+                    name="email"
+                    component="p"
+                    className=" text-sm text-red-500 mb-3"
+                  />
+                </div>
 
-                <button
-                disabled={isSubmitting}
+                <div className="">
+                  <FormControl className=" w-full" variant="outlined">
+                    <InputLabel htmlFor="password" size="small">
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
+                      size="small"
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Password"
+                    />
+                  </FormControl>
+
+                  <ErrorMessage
+                    name="password"
+                    component="p"
+                    className=" text-sm text-red-500"
+                  />
+                </div>
+
+                <Button disabled={isSubmitting}
                   type="submit"
-                  className=" w-full bg-blue-500 text-white rounded-lg py-2 mt-5 mb-3"
-                >
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 2, mb: 2 }}>
                   Sign In
-                </button>
+                  {isSubmitting && <Loader2 className=" ml-2 h-4 w-4 animate-spin items-center"/>}
+                </Button>
+
                 <h2 className=" text-blue-500 text-sm underline">
-                <Link to={"sign_up"}>You don't have an account?</Link>
-                  
+                  <Link to={"sign_up"}>You don't have an account?</Link>
                 </h2>
               </Form>
             </>

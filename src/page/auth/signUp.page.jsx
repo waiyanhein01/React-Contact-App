@@ -1,9 +1,14 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
 import { ErrorMessage, Form, Formik } from "formik";
-import React from "react";
+import { Loader2 } from "lucide-react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
+import { useSignUpMutation } from "../../store/services/endpoints/apiContact.endpoints";
 
 const signUpPage = () => {
+  const [fun,data] = useSignUpMutation()
   const initialValues = {
     name: "",
     email: "",
@@ -11,8 +16,16 @@ const signUpPage = () => {
     confirm_password: "",
   };
 
-  const handleSubmit = (value) => {
-    console.log(value);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const [showCPassword, setShowCPassword] = useState(false);
+
+  const handleClickShowCPassword = () => setShowCPassword((show) => !show);
+
+  const handleSubmit = async (value) => {
+    await fun(value);
   };
 
   const validationSchema = yup.object({
@@ -31,7 +44,7 @@ const signUpPage = () => {
       .required("Confirm Password is required"),
   });
   return (
-    <div className=" w-2/4 h-screen mx-auto flex justify-center items-center">
+    <div className=" w-2/4 lg:w-1/3 h-screen mx-auto flex justify-center items-center">
       <div className=" border w-3/4 p-5 rounded-lg gap-5 flex flex-col">
         <div className=" text-center">
           <h1 className=" text-xl font-bold">Sign Up</h1>
@@ -40,77 +53,136 @@ const signUpPage = () => {
           initialValues={initialValues}
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
+          validateOnBlur={false}
+          validateOnChange={false}
         >
           {({ handleChange, handleBlur, values, isSubmitting }) => (
             <>
               <Form>
-                <label htmlFor="name">Name</label>
-                <input
-                  className=" w-full rounded-lg py-1 ps-2 border outline-none mt-2 mb-2"
-                  type="name"
-                  name="name"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.name}
-                />
-                <ErrorMessage
-                  name="name"
-                  component="p"
-                  className=" text-sm text-red-500"
-                />
+              <div className=" mb-5">
+                  <FormControl className=" w-full mb-5" variant="outlined">
+                    <InputLabel htmlFor="name" size="small">
+                      Name
+                    </InputLabel>
+                    <OutlinedInput
+                      size="small"
+                      id="name"
+                      name="name"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.name}
+                      label="Name"
+                    />
+                  </FormControl>
 
-                <label htmlFor="email">Email</label>
-                <input
-                  className=" w-full rounded-lg py-1 ps-2 border outline-none mt-2 mb-2"
-                  type="email"
-                  name="email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.email}
-                />
-                <ErrorMessage
-                  name="email"
-                  component="p"
-                  className=" text-sm text-red-500"
-                />
+                  <ErrorMessage
+                    name="name"
+                    component="p"
+                    className=" text-sm text-red-500 mb-3"
+                  />
+                </div>
 
-                <label htmlFor="password">Password</label>
-                <input
-                  className=" w-full rounded-lg py-1 ps-2 border outline-none mt-2 mb-2"
-                  type="password"
-                  name="password"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                />
-                <ErrorMessage
-                  name="password"
-                  component="p"
-                  className=" text-sm text-red-500"
-                />
+              <div className=" mb-5">
+                  <FormControl className=" w-full mb-5" variant="outlined">
+                    <InputLabel htmlFor="email" size="small">
+                      Email
+                    </InputLabel>
+                    <OutlinedInput
+                      size="small"
+                      id="email"
+                      name="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                      label="Email"
+                    />
+                  </FormControl>
 
-                <label htmlFor="confirm_password">Confirm Password</label>
-                <input
-                  className=" w-full rounded-lg py-1 ps-2 border outline-none mt-2 mb-2"
-                  type="password"
-                  name="confirm_password"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.confirm_password}
-                />
-                <ErrorMessage
-                  name="confirm_password"
-                  component="p"
-                  className=" text-sm text-red-500"
-                />
+                  <ErrorMessage
+                    name="email"
+                    component="p"
+                    className=" text-sm text-red-500 mb-3"
+                  />
+                </div>
 
-                <button
-                  disabled={isSubmitting}
+                <div className="mb-5">
+                  <FormControl className=" w-full" variant="outlined">
+                    <InputLabel htmlFor="password" size="small">
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
+                      size="small"
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Password"
+                    />
+                  </FormControl>
+
+                  <ErrorMessage
+                    name="password"
+                    component="p"
+                    className=" text-sm text-red-500"
+                  />
+                </div>
+
+                <div className="">
+                  <FormControl className=" w-full" variant="outlined">
+                    <InputLabel htmlFor="confirm_password" size="small">
+                      Confirm Password
+                    </InputLabel>
+                    <OutlinedInput
+                      size="small"
+                      id="confirm_password"
+                      type={showCPassword ? "text" : "password"}
+                      name="confirm_password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.confirm_password}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle confirm_password visibility"
+                            onClick={handleClickShowCPassword}
+                            edge="end"
+                          >
+                            {showCPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Confirm Password"
+                    />
+                  </FormControl>
+
+                  <ErrorMessage
+                    name="confirm_password"
+                    component="p"
+                    className=" text-sm text-red-500"
+                  />
+                </div>
+
+                <Button disabled={isSubmitting}
                   type="submit"
-                  className=" w-full bg-blue-500 text-white rounded-lg py-2 mt-3 mb-3"
-                >
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 2, mb: 2 }}>
                   Sign Up
-                </button>
+                  {isSubmitting && <Loader2 className=" ml-2 h-4 w-4 animate-spin items-center"/>}
+                </Button>
                 <h2 className=" text-blue-500 text-sm underline">
                   <Link to={"/"}>Already have an account?</Link>
                 </h2>
