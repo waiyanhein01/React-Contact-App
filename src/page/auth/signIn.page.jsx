@@ -30,7 +30,7 @@ const signInPage = () => {
 
   const handleSubmit = async (value,action) => {
     await fun(value);
-    action.reset()
+    action.resetForm(null)
   };
 
   useEffect(() => {
