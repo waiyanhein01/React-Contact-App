@@ -1,19 +1,29 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
+import {
+  Alert,
+  Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
 import { ErrorMessage, Form, Formik } from "formik";
 import { Loader2 } from "lucide-react";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useSignUpMutation } from "../../store/services/endpoints/apiContact.endpoints";
 
 const signUpPage = () => {
-  const [fun,data] = useSignUpMutation()
+  const nav = useNavigate()
+  const [fun, data] = useSignUpMutation();
+  console.log(data)
   const initialValues = {
     name: "",
     email: "",
     password: "",
-    confirm_password: "",
+    password_confirmation: "",
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -28,6 +38,12 @@ const signUpPage = () => {
     await fun(value);
   };
 
+useEffect(() => {
+  if(data.data) {
+    nav("/")
+  }
+},[data])
+
   const validationSchema = yup.object({
     name: yup.string().required("Name is Required"),
     email: yup
@@ -38,7 +54,7 @@ const signUpPage = () => {
       .string()
       .min(8, "Password must be at least 8 characters")
       .required("Password is required"),
-      confirm_password: yup
+    password_confirmation: yup
       .string()
       .oneOf([yup.ref("password"), null], "Passwords must match")
       .required("Confirm Password is required"),
@@ -59,7 +75,11 @@ const signUpPage = () => {
           {({ handleChange, handleBlur, values, isSubmitting }) => (
             <>
               <Form>
-              <div className=" mb-5">
+                {data.isError && <Alert variant="filled" severity="error" sx={{mb:2}}>
+                  {data.error.error}
+                </Alert>}
+                
+                <div className=" mb-5">
                   <FormControl className=" w-full mb-5" variant="outlined">
                     <InputLabel htmlFor="name" size="small">
                       Name
@@ -82,7 +102,7 @@ const signUpPage = () => {
                   />
                 </div>
 
-              <div className=" mb-5">
+                <div className=" mb-5">
                   <FormControl className=" w-full mb-5" variant="outlined">
                     <InputLabel htmlFor="email" size="small">
                       Email
@@ -142,21 +162,21 @@ const signUpPage = () => {
 
                 <div className="">
                   <FormControl className=" w-full" variant="outlined">
-                    <InputLabel htmlFor="confirm_password" size="small">
+                    <InputLabel htmlFor="password_confirmation" size="small">
                       Confirm Password
                     </InputLabel>
                     <OutlinedInput
                       size="small"
-                      id="confirm_password"
+                      id="password_confirmation"
                       type={showCPassword ? "text" : "password"}
-                      name="confirm_password"
+                      name="password_confirmation"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.confirm_password}
+                      value={values.password_confirmation}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
-                            aria-label="toggle confirm_password visibility"
+                            aria-label="toggle password_confirmation visibility"
                             onClick={handleClickShowCPassword}
                             edge="end"
                           >
@@ -169,19 +189,23 @@ const signUpPage = () => {
                   </FormControl>
 
                   <ErrorMessage
-                    name="confirm_password"
+                    name="password_confirmation"
                     component="p"
                     className=" text-sm text-red-500"
                   />
                 </div>
 
-                <Button disabled={isSubmitting}
+                <Button
+                  disabled={isSubmitting}
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 2, mb: 2 }}>
+                  sx={{ mt: 2, mb: 2 }}
+                >
                   Sign Up
-                  {isSubmitting && <Loader2 className=" ml-2 h-4 w-4 animate-spin items-center"/>}
+                  {isSubmitting && (
+                    <Loader2 className=" ml-2 h-4 w-4 animate-spin items-center" />
+                  )}
                 </Button>
                 <h2 className=" text-blue-500 text-sm underline">
                   <Link to={"/"}>Already have an account?</Link>

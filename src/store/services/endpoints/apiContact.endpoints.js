@@ -4,7 +4,7 @@ const apiContactEndpoints = ApiService.injectEndpoints({
   endpoints: (builder) => ({
     signIn: builder.mutation({
       query: (arg) => ({
-        url: "login",
+        url: "/login",
         method: "POST",
         body: arg,
       }),
@@ -17,7 +17,11 @@ const apiContactEndpoints = ApiService.injectEndpoints({
         body: arg,
       }),
     }),
+
+    profile: builder.query({
+      query: () => "user-profile"
+    })
   }),
 });
 
-export const { useSignInMutation, useSignUpMutation } = apiContactEndpoints;
+export const { useSignInMutation, useSignUpMutation, useProfileQuery } = apiContactEndpoints;
