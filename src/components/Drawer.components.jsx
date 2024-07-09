@@ -8,12 +8,8 @@ import { ErrorMessage, Form, Formik } from "formik";
 import * as yup from "yup";
 import { FormControl, InputLabel, OutlinedInput } from "@mui/material";
 import { Loader2 } from "lucide-react";
-import { useCreateContactMutation, useGetContactQuery } from "../store/services/endpoints/contant.endpoinds";
-
 export default function TemporaryDrawer() {
-  const { data, isLoading, isError, isSuccess } =
-    useGetContactQuery();
-  console.log(data, isLoading, isError, isSuccess);
+  
 
   const [open, setOpen] = React.useState(false);
 
