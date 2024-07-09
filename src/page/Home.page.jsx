@@ -2,7 +2,6 @@ import React from "react";
 import {
   AuthGuard,
   DataTableComponents,
-  DataTableListsComponents,
   DrawerComponents,
   LottieComponents,
   NavComponents,
@@ -25,20 +24,16 @@ const HomePage = () => {
               <DrawerComponents />
             </div>
 
-            <div className=" mt-5 bg-white h-[450px] border flex items-center justify-center rounded overflow-y-scroll">
-              <div className="">
-                {data?.contacts?.data?.length > 0 ? (
-                  <>
-                    <DataTableComponents/>
-                  </>
-                ) : (
-                  <>
-                    {" "}
-                    <LottieComponents />
-                  </>
-                )}
-                
-              </div>
+            <div className=" mt-5 bg-white border h-[450px] flex items-center justify-center rounded overflow-y-scroll">
+              {data?.contacts?.data?.length > 0 ? (
+                <div div className=" lg:w-[900px] w-[650px]">
+                  <DataTableComponents data={data} />
+                </div>
+              ) : (
+                <>
+                  <LottieComponents />
+                </>
+              )}
             </div>
           </div>
         </div>

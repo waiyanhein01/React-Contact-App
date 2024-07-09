@@ -8,5 +8,4 @@ export {default as LoadingComponents} from "./Loader.components"
 
 // Table
 export {default as DataTableComponents} from "./DataTable.components"
-export {default as DataTableListsComponents} from "./DataTableLists.components"
 

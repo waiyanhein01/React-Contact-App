@@ -9,12 +9,12 @@ import {
 } from "@mui/material";
 
 const DataTableComponents = ({ data }) => {
-  console.log(data);
+//   console.log(data);
 
   return (
-    <div className="">
+    <div className="h-[450px] w-auto p-5">
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
@@ -28,33 +28,17 @@ const DataTableComponents = ({ data }) => {
             </TableRow>
           </TableHead>
 
-          {/* <TableBody>
-            <TableRow>
-              <TableCell>1</TableCell>
-
-              <TableCell>Wai</TableCell>
-              <TableCell>wai@gmail.com</TableCell>
-
-              <TableCell>Yangon</TableCell>
-              <TableCell align="right">96665433234</TableCell>
-
-            </TableRow>
-          </TableBody> */}
-
           <TableBody>
-            {data.map((d) => (
-              <TableRow
-                key={d.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell>
-                  {d.name}
-                </TableCell>
-                <TableCell align="right">{d.phone}</TableCell>
-                <TableCell align="right">{d.email}</TableCell>
-                <TableCell align="right">{d.address}</TableCell>
-              </TableRow>
-            ))}
+            {data?.contacts?.data?.map((d) => <TableRow key={d.id}>
+              <TableCell>{d.id}</TableCell>
+
+              <TableCell>{d.name}</TableCell>
+              <TableCell>{d.email}</TableCell>
+
+              <TableCell>{d.address}</TableCell>
+              <TableCell align="right">{d.phone}</TableCell>
+
+            </TableRow>)}
           </TableBody>
         </Table>
       </TableContainer>
