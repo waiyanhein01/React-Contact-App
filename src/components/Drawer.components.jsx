@@ -10,24 +10,26 @@ import { FormControl, InputLabel, OutlinedInput } from "@mui/material";
 import { Loader2 } from "lucide-react";
 import { useCreateContactMutation } from "../store/services/endpoints/contant.endpoinds";
 
-const DrawerComponents = () => {
-  const [fun,{data,isLoading,isError,isSuccess}] = useCreateContactMutation()
-  console.log(data)
+const DrawerComponents = ({ editData, open, toggleDrawer }) => {
+  const [fun, { data, isLoading, isError, isSuccess }] =
+    useCreateContactMutation();
+  // console.log(data)
 
-  const [open, setOpen] = React.useState(false);
-
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
-  };
-
-  const closeRef = React.useRef()
+  
 
   const initialValues = {
-    name: "",
-    phone: "",
-    email: "",
-    address: "",
+    name: editData.data?.name || "",
+    phone: editData.data?.phone || "",
+    email: editData.data?.email || "",
+    address: editData.data?.address || "",
   };
+
+  React.useEffect(() => {
+    console.log(data, isLoading, isError, isSuccess);
+    if (isSuccess) {
+      setOpen(false);
+    }
+  }, [data, isLoading, isError, isSuccess]);
 
   const validationSchema = yup.object({
     name: yup.string().required("Name is required"),
@@ -43,14 +45,19 @@ const DrawerComponents = () => {
     address: yup.string().required("Address is required"),
   });
 
-  const handleSubmit = async(value, action) => {
+  const handleSubmit = async (value, action) => {
     await fun(value);
     action.resetForm(null);
   };
 
   return (
     <div>
-      <Button variant="contained" color="primary" size="small" onClick={toggleDrawer(true)}>
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        onClick={toggleDrawer(true)}
+      >
         <GoPlus className=" w-6 h-6" />
         Create Contact
       </Button>
@@ -196,7 +203,6 @@ const DrawerComponents = () => {
                         </Button>
 
                         <Button
-                        ref={closeRef}
                           disabled={isSubmitting}
                           type="submit"
                           fullWidth
@@ -218,7 +224,6 @@ const DrawerComponents = () => {
       </Drawer>
     </div>
   );
-}
+};
 
-export default DrawerComponents
-
+export default DrawerComponents;

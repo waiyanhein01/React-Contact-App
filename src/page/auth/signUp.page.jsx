@@ -19,7 +19,7 @@ import { AuthGuard } from "../../components";
 const signUpPage = () => {
   const nav = useNavigate();
   const [fun, data] = useSignUpMutation();
-  console.log(data);
+  // console.log(data);
   const initialValues = {
     name: "",
     email: "",

@@ -10,34 +10,41 @@ import {
 } from "@mui/material";
 import { HiOutlinePencil } from "react-icons/hi";
 import { FaRegTrashCan } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { useDeleteContactMutation } from "../store/services/endpoints/contant.endpoinds";
 
-const DataTableComponents = ({ data }) => {
-  const [delRow, setDelRow] = useState();
-  const handleDelBtn = (
+const DataTableComponents = ({ tableData,handleEditBtn }) => {
+  const [fun, { data, isLoading, isError }] = useDeleteContactMutation();
 
-  ) => {
+  useEffect(() => {
+    console.log("Hello Del", data, isLoading, isError);
+  }, [data, isLoading, isError]);
+  const handleDelBtn = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "You want to remove?",
       icon: "warning",
       showCancelButton: true,
       // confirmButtonColor: "#3085d6",
       // cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
+      showLoaderOnConfirm: true,
+      preConfirm: async() => {
+        await fun(id);
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
           title: "Deleted!",
-          text: "Your file has been deleted.",
+          text: "Your contact has been deleted.",
           icon: "success",
         });
       }
     });
   };
   return (
-    <div className="h-[450px] w-auto p-5">
+    <div className="h-[450px] w-full p-5">
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
@@ -52,7 +59,7 @@ const DataTableComponents = ({ data }) => {
           </TableHead>
 
           <TableBody>
-            {data?.contacts?.data?.map((d) => (
+            {tableData.map((d) => (
               <TableRow key={d.id}>
                 <TableCell>{d.id}</TableCell>
                 <TableCell>{d.name}</TableCell>
@@ -61,10 +68,10 @@ const DataTableComponents = ({ data }) => {
                 <TableCell align="right">{d.phone}</TableCell>
                 <TableCell>
                   <div className=" space-x-3">
-                    <button>
+                    <button onClick={handleEditBtn.bind(null,d.id)}>
                       <HiOutlinePencil />
                     </button>
-                    <button onClick={handleDelBtn}>
+                    <button onClick={handleDelBtn.bind(null, d.id)}>
                       <FaRegTrashCan className=" text-red-500" />
                     </button>
                   </div>

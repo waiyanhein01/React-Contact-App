@@ -13,6 +13,7 @@ const ApiService = createApi({
              return headers
         }
     }),
+    tagTypes: ["contact"],
     endpoints: (builder) => ({})
 })
 
