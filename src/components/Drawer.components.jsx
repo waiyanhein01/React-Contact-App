@@ -8,14 +8,19 @@ import { ErrorMessage, Form, Formik } from "formik";
 import * as yup from "yup";
 import { FormControl, InputLabel, OutlinedInput } from "@mui/material";
 import { Loader2 } from "lucide-react";
-export default function TemporaryDrawer() {
-  
+import { useCreateContactMutation } from "../store/services/endpoints/contant.endpoinds";
+
+const DrawerComponents = () => {
+  const [fun,{data,isLoading,isError,isSuccess}] = useCreateContactMutation()
+  console.log(data)
 
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
+
+  const closeRef = React.useRef()
 
   const initialValues = {
     name: "",
@@ -38,14 +43,14 @@ export default function TemporaryDrawer() {
     address: yup.string().required("Address is required"),
   });
 
-  const handleSubmit = (value, action) => {
-    console.log(value);
+  const handleSubmit = async(value, action) => {
+    await fun(value);
     action.resetForm(null);
   };
 
   return (
-    <div className="">
-      <Button variant="contained" size="small" onClick={toggleDrawer(true)}>
+    <div>
+      <Button variant="contained" color="primary" size="small" onClick={toggleDrawer(true)}>
         <GoPlus className=" w-6 h-6" />
         Create Contact
       </Button>
@@ -74,7 +79,7 @@ export default function TemporaryDrawer() {
                 {({ handleChange, handleBlur, values, isSubmitting }) => (
                   <>
                     <Form className="flex flex-col h-[520px]">
-                      <div className="">
+                      <div>
                         <div className=" mb-5">
                           <FormControl
                             className=" w-full mb-5"
@@ -183,7 +188,7 @@ export default function TemporaryDrawer() {
                       <div className=" flex gap-3 mt-auto">
                         <Button
                           onClick={toggleDrawer(false)}
-                          type="cancel"
+                          type="button"
                           fullWidth
                           variant="outlined"
                         >
@@ -191,6 +196,7 @@ export default function TemporaryDrawer() {
                         </Button>
 
                         <Button
+                        ref={closeRef}
                           disabled={isSubmitting}
                           type="submit"
                           fullWidth
@@ -213,3 +219,6 @@ export default function TemporaryDrawer() {
     </div>
   );
 }
+
+export default DrawerComponents
+

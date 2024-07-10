@@ -14,7 +14,7 @@ const HomePage = () => {
 
   return (
     <AuthGuard>
-      <div>
+      <>
         <div className=" bg-[#f4f8f8] h-screen w-full">
           <div className="bg-white shadow">
             <NavComponents />
@@ -37,7 +37,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </>
     </AuthGuard>
   );
 };

@@ -76,3 +76,11 @@
       @apply bg-background text-foreground;
     }
   }
+
+  .swal2-confirm {
+    @apply bg-red-500 rounded-lg
+  }
+
+  .swal2-cancel {
+    @apply bg-red-50 text-red-500 rounded-lg
+  }

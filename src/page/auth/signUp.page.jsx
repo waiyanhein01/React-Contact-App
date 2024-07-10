@@ -169,7 +169,7 @@ const signUpPage = () => {
                     />
                   </div>
 
-                  <div className="">
+                  <div>
                     <FormControl className=" w-full" variant="outlined">
                       <InputLabel htmlFor="password_confirmation" size="small">
                         Confirm Password

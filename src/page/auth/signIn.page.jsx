@@ -94,7 +94,7 @@ const signInPage = () => {
                   />
                 </div>
 
-                <div className="">
+                <div>
                   <FormControl className=" w-full" variant="outlined">
                     <InputLabel htmlFor="password" size="small">
                       Password
