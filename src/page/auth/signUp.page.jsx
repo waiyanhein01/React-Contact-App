@@ -62,7 +62,7 @@ const signUpPage = () => {
       .required("Confirm Password is required"),
   });
   return (
-    <AuthGuard>
+    <AuthGuard path={"/sign_up"}>
       <div className=" w-2/4 lg:w-1/3 h-screen mx-auto flex justify-center items-center">
         <div className=" border w-3/4 p-5 rounded-lg gap-5 flex flex-col">
           <div className=" text-center">

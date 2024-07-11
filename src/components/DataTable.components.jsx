@@ -17,9 +17,6 @@ import { useDeleteContactMutation } from "../store/services/endpoints/contant.en
 const DataTableComponents = ({ tableData,handleEditBtn }) => {
   const [fun, { data, isLoading, isError }] = useDeleteContactMutation();
 
-  useEffect(() => {
-    console.log("Hello Del", data, isLoading, isError);
-  }, [data, isLoading, isError]);
   const handleDelBtn = (id) => {
     Swal.fire({
       title: "Are you sure?",

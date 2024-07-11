@@ -9,3 +9,5 @@ export {default as LoadingComponents} from "./Loader.components"
 // Table
 export {default as DataTableComponents} from "./DataTable.components"
 
+// Loader
+export {default as LoaderComponents} from "./Loader.components"

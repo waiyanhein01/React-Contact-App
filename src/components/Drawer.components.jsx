@@ -8,14 +8,14 @@ import { ErrorMessage, Form, Formik } from "formik";
 import * as yup from "yup";
 import { FormControl, InputLabel, OutlinedInput } from "@mui/material";
 import { Loader2 } from "lucide-react";
-import { useCreateContactMutation } from "../store/services/endpoints/contant.endpoinds";
+import { useCreateContactMutation, useUpdateContactMutation } from "../store/services/endpoints/contant.endpoinds";
 
-const DrawerComponents = ({ editData, open, toggleDrawer }) => {
-  const [fun, { data, isLoading, isError, isSuccess }] =
+const DrawerComponents = ({ editData, open, toggleDrawer,setOpen }) => {
+  const [createFun, { data, isLoading, isError, isSuccess }] =
     useCreateContactMutation();
   // console.log(data)
 
-  
+  const [updateFun, updateData] = useUpdateContactMutation()
 
   const initialValues = {
     name: editData.data?.name || "",
@@ -23,13 +23,6 @@ const DrawerComponents = ({ editData, open, toggleDrawer }) => {
     email: editData.data?.email || "",
     address: editData.data?.address || "",
   };
-
-  React.useEffect(() => {
-    console.log(data, isLoading, isError, isSuccess);
-    if (isSuccess) {
-      setOpen(false);
-    }
-  }, [data, isLoading, isError, isSuccess]);
 
   const validationSchema = yup.object({
     name: yup.string().required("Name is required"),
@@ -46,8 +39,13 @@ const DrawerComponents = ({ editData, open, toggleDrawer }) => {
   });
 
   const handleSubmit = async (value, action) => {
-    await fun(value);
+    if(editData?.edit){
+      await updateFun({id:editData?.data?.id,...value})
+    }else {
+      await createFun(value);
+    }
     action.resetForm(null);
+    setOpen(false);
   };
 
   return (
@@ -208,7 +206,7 @@ const DrawerComponents = ({ editData, open, toggleDrawer }) => {
                           fullWidth
                           variant="contained"
                         >
-                          Create
+                          {editData.edit ? "Update" : "Create"}
                           {isSubmitting && (
                             <Loader2 className=" ml-2 h-4 w-4 animate-spin items-center" />
                           )}

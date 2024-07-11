@@ -51,7 +51,7 @@ const signInPage = () => {
   });
   return (
     <AuthGuard
-     check={data?.data?.success} token={data?.data?.token} >
+     check={data?.data?.success} token={data?.data?.token}>
       <div className="w-2/4 lg:w-1/3 h-screen mx-auto flex justify-center items-center">
       <div className=" border w-3/4 p-5 rounded-lg gap-5 flex flex-col">
         <div className=" text-center">

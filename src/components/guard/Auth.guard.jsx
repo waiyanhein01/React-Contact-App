@@ -3,14 +3,14 @@ import { useProfileQuery } from "../../store/services/endpoints/apiContact.endpo
 import LoaderComponents from "../Loader.components";
 import { useNavigate } from "react-router-dom";
 
-const AuthGuard = ({ check, token, children }) => {
+const AuthGuard = ({ check, token, path="/", children }) => {
   const nav = useNavigate();
   const { isError, data, isLoading } = useProfileQuery();
   useEffect(() => {
     if (check) {
       localStorage.setItem("token", JSON.stringify(token));
     } else if (isError) {
-      nav("/");
+      nav(path);
     }else if(data) {
         nav("/home")
     }
