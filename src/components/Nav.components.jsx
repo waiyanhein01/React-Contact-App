@@ -9,12 +9,10 @@ const NavComponents = () => {
 
   const nav = useNavigate();
 
-  const handleLogout = () => {
-    logoutFun();
+  const handleLogout = async () => {
+    await logoutFun(data);
     localStorage.removeItem("token");
-    if (data?.success) {
-      nav("/");
-    }
+    nav("/");
   };
 
   return (
@@ -23,7 +21,7 @@ const NavComponents = () => {
         <div className=" flex justify-between items-center">
           <h1 className="">WYH</h1>
           <div className=" flex items-center space-x-5">
-            <button onClick={handleLogout} className="">
+            <button type="button" onClick={handleLogout} className="">
               {isLoading ? (
                 <Loader2 className=" ml-2 h-6 w-6 animate-spin" />
               ) : (

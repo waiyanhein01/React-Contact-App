@@ -63,7 +63,7 @@ const signUpPage = () => {
   });
   return (
     <AuthGuard path={"/sign_up"}>
-      <div className=" w-2/4 lg:w-1/3 h-screen mx-auto flex justify-center items-center">
+      <div className=" w-3/4 lg:w-1/3 h-screen mx-auto flex justify-center items-center">
         <div className=" border w-3/4 p-5 rounded-lg gap-5 flex flex-col">
           <div className=" text-center">
             <h1 className=" text-xl font-bold">Sign Up</h1>
@@ -79,7 +79,7 @@ const signUpPage = () => {
               <>
                 <Form>
                   {data.isError && (
-                    <Alert variant="filled" severity="error" sx={{ mb: 2 }}>
+                    <Alert variant="outlined" severity="info" sx={{ mb: 2 }}>
                       {data.error.error}
                     </Alert>
                   )}

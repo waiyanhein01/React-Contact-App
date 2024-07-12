@@ -49,7 +49,7 @@ const DrawerComponents = ({ editData, open, toggleDrawer,setOpen }) => {
   };
 
   return (
-    <div>
+    <>
       <Button
         variant="contained"
         color="primary"
@@ -220,7 +220,7 @@ const DrawerComponents = ({ editData, open, toggleDrawer,setOpen }) => {
           </div>
         </Box>
       </Drawer>
-    </div>
+    </>
   );
 };
 

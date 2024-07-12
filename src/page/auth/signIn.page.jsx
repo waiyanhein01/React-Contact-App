@@ -37,6 +37,9 @@ const signInPage = () => {
     if(data?.data?.success){
       nav("/home")
     }
+    else{
+      nav("/")
+    }
   },[data])
 
   const validationSchema = yup.object({
@@ -52,7 +55,7 @@ const signInPage = () => {
   return (
     <AuthGuard
      check={data?.data?.success} token={data?.data?.token}>
-      <div className="w-2/4 lg:w-1/3 h-screen mx-auto flex justify-center items-center">
+      <div className="w-3/4 lg:w-1/2 h-screen mx-auto flex justify-center items-center">
       <div className=" border w-3/4 p-5 rounded-lg gap-5 flex flex-col">
         <div className=" text-center">
           <h1 className=" text-xl font-bold">Sign In</h1>
@@ -67,7 +70,7 @@ const signInPage = () => {
           {({ handleChange, handleBlur, values, isSubmitting }) => (
             <>
               <Form>
-                {data.isSuccess && <Alert variant="filled" severity="error" sx={{mb:2}}>
+                {data.isSuccess && <Alert variant="outlined" severity="info" sx={{mb:2}}>
                   {data.data.message}
                 </Alert>}
 
