@@ -84,3 +84,7 @@
   .swal2-cancel {
     @apply bg-red-50 text-red-500 rounded-lg
   }
+
+  .table {
+    @apply bg-blue-600 text-white
+  }

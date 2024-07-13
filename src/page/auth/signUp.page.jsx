@@ -63,8 +63,8 @@ const signUpPage = () => {
   });
   return (
     <AuthGuard path={"/sign_up"}>
-      <div className=" w-3/4 lg:w-1/3 h-screen mx-auto flex justify-center items-center">
-        <div className=" border w-3/4 p-5 rounded-lg gap-5 flex flex-col">
+      <div className=" bg-blue-500 w-screen h-screen mx-auto flex justify-center items-center">
+        <div className=" border w-[400px] bg-slate-50 p-5 rounded-lg gap-5 flex flex-col">
           <div className=" text-center">
             <h1 className=" text-xl font-bold">Sign Up</h1>
           </div>
@@ -221,7 +221,7 @@ const signUpPage = () => {
                     )}
                   </Button>
                   <h2 className=" text-blue-500 text-sm underline">
-                    <Link to={"/"}>Already have an account?</Link>
+                    <Link to={"/"}>Already have an account?Log In</Link>
                   </h2>
                 </Form>
               </>

@@ -17,6 +17,8 @@ import { useSignInMutation } from "../../store/services/endpoints/apiContact.end
 import { AuthGuard } from "../../components";
 
 const signInPage = () => {
+
+
   const nav = useNavigate()
   const [fun, data] = useSignInMutation();
   const initialValues = {
@@ -55,10 +57,10 @@ const signInPage = () => {
   return (
     <AuthGuard
      check={data?.data?.success} token={data?.data?.token}>
-      <div className="w-3/4 lg:w-1/2 h-screen mx-auto flex justify-center items-center">
-      <div className=" border w-3/4 p-5 rounded-lg gap-5 flex flex-col">
+      <div className=" bg-blue-500 w-screen h-screen mx-auto flex justify-center items-center">
+      <div className=" border w-[400px] bg-slate-50 p-5 rounded-lg gap-5 flex flex-col">
         <div className=" text-center">
-          <h1 className=" text-xl font-bold">Sign In</h1>
+          <h1 className=" text-xl font-bold">Log In</h1>
         </div>
         <Formik
           initialValues={initialValues}
@@ -139,14 +141,14 @@ const signInPage = () => {
                   variant="contained"
                   sx={{ mt: 2, mb: 2 }}
                 >
-                  Sign In
+                  Log In
                   {isSubmitting && (
                     <Loader2 className=" ml-2 h-4 w-4 animate-spin items-center" />
                   )}
                 </Button>
 
                 <h2 className=" text-blue-500 text-sm underline">
-                  <Link to={"sign_up"}>You don't have an account?</Link>
+                  <Link to={"sign_up"}>You don't have an account?Sign Up</Link>
                 </h2>
               </Form>
             </>

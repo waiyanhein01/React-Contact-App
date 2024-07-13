@@ -1,5 +1,4 @@
 import {
-  colors,
   Paper,
   Table,
   TableBody,
@@ -10,7 +9,6 @@ import {
 } from "@mui/material";
 import { HiOutlinePencil } from "react-icons/hi";
 import { FaRegTrashCan } from "react-icons/fa6";
-import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useDeleteContactMutation } from "../store/services/endpoints/contant.endpoinds";
 
@@ -44,7 +42,7 @@ const DataTableComponents = ({ tableData,handleEditBtn }) => {
     <div className="h-[450px] w-full p-5">
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
-          <TableHead>
+          <TableHead className="bg-blue-400">
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
