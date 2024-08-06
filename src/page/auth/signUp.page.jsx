@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useSignUpMutation } from "../../store/services/endpoints/apiContact.endpoints";
-import { AuthGuard } from "../../components";
+import { AuthGuard, ContainerComponents } from "../../components";
 
 const signUpPage = () => {
   const nav = useNavigate();
@@ -63,171 +63,179 @@ const signUpPage = () => {
   });
   return (
     <AuthGuard path={"/sign_up"}>
-      <div className=" bg-blue-500 w-screen h-screen mx-auto flex justify-center items-center">
-        <div className=" border w-[400px] bg-slate-50 p-5 rounded-lg gap-5 flex flex-col">
-          <div className=" text-center">
-            <h1 className=" text-xl font-bold">Sign Up</h1>
-          </div>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            validationSchema={validationSchema}
-            validateOnBlur={false}
-            validateOnChange={false}
-          >
-            {({ handleChange, handleBlur, values, isSubmitting }) => (
-              <>
-                <Form>
-                  {data.isError && (
-                    <Alert variant="outlined" severity="info" sx={{ mb: 2 }}>
-                      {data.error.error}
-                    </Alert>
-                  )}
-
-                  <div className=" mb-5">
-                    <FormControl className=" w-full mb-5" variant="outlined">
-                      <InputLabel htmlFor="name" size="small">
-                        Name
-                      </InputLabel>
-                      <OutlinedInput
-                        size="small"
-                        id="name"
-                        name="name"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.name}
-                        label="Name"
-                      />
-                    </FormControl>
-
-                    <ErrorMessage
-                      name="name"
-                      component="p"
-                      className=" text-sm text-red-500 mb-3"
-                    />
-                  </div>
-
-                  <div className=" mb-5">
-                    <FormControl className=" w-full mb-5" variant="outlined">
-                      <InputLabel htmlFor="email" size="small">
-                        Email
-                      </InputLabel>
-                      <OutlinedInput
-                        size="small"
-                        id="email"
-                        name="email"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.email}
-                        label="Email"
-                      />
-                    </FormControl>
-
-                    <ErrorMessage
-                      name="email"
-                      component="p"
-                      className=" text-sm text-red-500 mb-3"
-                    />
-                  </div>
-
-                  <div className="mb-5">
-                    <FormControl className=" w-full" variant="outlined">
-                      <InputLabel htmlFor="password" size="small">
-                        Password
-                      </InputLabel>
-                      <OutlinedInput
-                        size="small"
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.password}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        label="Password"
-                      />
-                    </FormControl>
-
-                    <ErrorMessage
-                      name="password"
-                      component="p"
-                      className=" text-sm text-red-500"
-                    />
-                  </div>
-
-                  <div>
-                    <FormControl className=" w-full" variant="outlined">
-                      <InputLabel htmlFor="password_confirmation" size="small">
-                        Confirm Password
-                      </InputLabel>
-                      <OutlinedInput
-                        size="small"
-                        id="password_confirmation"
-                        type={showCPassword ? "text" : "password"}
-                        name="password_confirmation"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.password_confirmation}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password_confirmation visibility"
-                              onClick={handleClickShowCPassword}
-                              edge="end"
-                            >
-                              {showCPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        label="Confirm Password"
-                      />
-                    </FormControl>
-
-                    <ErrorMessage
-                      name="password_confirmation"
-                      component="p"
-                      className=" text-sm text-red-500"
-                    />
-                  </div>
-
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 2, mb: 2 }}
-                  >
-                    Sign Up
-                    {isSubmitting && (
-                      <Loader2 className=" ml-2 h-4 w-4 animate-spin items-center" />
+      <div className=" bg-blue-gradient">
+        <ContainerComponents>
+          <div className="  border w-[300px] bg-white-gradient p-5 rounded-lg gap-5 flex flex-col">
+            <div className=" text-center">
+              <h1 className=" text-xl font-bold">Sign Up</h1>
+            </div>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={handleSubmit}
+              validationSchema={validationSchema}
+              validateOnBlur={false}
+              validateOnChange={false}
+            >
+              {({ handleChange, handleBlur, values, isSubmitting }) => (
+                <>
+                  <Form>
+                    {data.isError && (
+                      <Alert variant="outlined" severity="info" sx={{ mb: 2 }}>
+                        {data.error.error}
+                      </Alert>
                     )}
-                  </Button>
-                  <h2 className=" text-blue-500 text-sm underline">
-                    <Link to={"/"}>Already have an account?Log In</Link>
-                  </h2>
-                </Form>
-              </>
-            )}
-          </Formik>
-        </div>
+
+                    <div className=" mb-5">
+                      <FormControl className=" w-full mb-5" variant="outlined">
+                        <InputLabel htmlFor="name" size="small">
+                          Name
+                        </InputLabel>
+                        <OutlinedInput
+                          size="small"
+                          id="name"
+                          name="name"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.name}
+                          label="Name"
+                        />
+                      </FormControl>
+
+                      <ErrorMessage
+                        name="name"
+                        component="p"
+                        className=" text-sm text-red-500 mb-3"
+                      />
+                    </div>
+
+                    <div className=" mb-5">
+                      <FormControl className=" w-full mb-5" variant="outlined">
+                        <InputLabel htmlFor="email" size="small">
+                          Email
+                        </InputLabel>
+                        <OutlinedInput
+                          size="small"
+                          id="email"
+                          name="email"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.email}
+                          label="Email"
+                        />
+                      </FormControl>
+
+                      <ErrorMessage
+                        name="email"
+                        component="p"
+                        className=" text-sm text-red-500 mb-3"
+                      />
+                    </div>
+
+                    <div className="mb-5">
+                      <FormControl className=" w-full" variant="outlined">
+                        <InputLabel htmlFor="password" size="small">
+                          Password
+                        </InputLabel>
+                        <OutlinedInput
+                          size="small"
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          name="password"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.password}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          label="Password"
+                        />
+                      </FormControl>
+
+                      <ErrorMessage
+                        name="password"
+                        component="p"
+                        className=" text-sm text-red-500"
+                      />
+                    </div>
+
+                    <div>
+                      <FormControl className=" w-full" variant="outlined">
+                        <InputLabel
+                          htmlFor="password_confirmation"
+                          size="small"
+                        >
+                          Confirm Password
+                        </InputLabel>
+                        <OutlinedInput
+                          size="small"
+                          id="password_confirmation"
+                          type={showCPassword ? "text" : "password"}
+                          name="password_confirmation"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.password_confirmation}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password_confirmation visibility"
+                                onClick={handleClickShowCPassword}
+                                edge="end"
+                              >
+                                {showCPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          label="Confirm Password"
+                        />
+                      </FormControl>
+
+                      <ErrorMessage
+                        name="password_confirmation"
+                        component="p"
+                        className=" text-sm text-red-500"
+                      />
+                    </div>
+
+                    <Button
+                      disabled={isSubmitting}
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 2, mb: 2 }}
+                    >
+                      Sign Up
+                      {isSubmitting && (
+                        <Loader2 className=" ml-2 h-4 w-4 animate-spin items-center" />
+                      )}
+                    </Button>
+                    <h2 className=" text-sm">
+                      <span>Already have an account?</span>
+                      <Link className="text-blue-500 underline ps-1" to={"/"}>
+                        Log In
+                      </Link>
+                    </h2>
+                  </Form>
+                </>
+              )}
+            </Formik>
+          </div>
+        </ContainerComponents>
       </div>
     </AuthGuard>
   );

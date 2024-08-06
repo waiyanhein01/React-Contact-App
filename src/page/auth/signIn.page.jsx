@@ -14,12 +14,10 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useSignInMutation } from "../../store/services/endpoints/apiContact.endpoints";
-import { AuthGuard } from "../../components";
+import { AuthGuard, ContainerComponents } from "../../components";
 
 const signInPage = () => {
-
-
-  const nav = useNavigate()
+  const nav = useNavigate();
   const [fun, data] = useSignInMutation();
   const initialValues = {
     email: "",
@@ -30,19 +28,18 @@ const signInPage = () => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleSubmit = async (value,action) => {
+  const handleSubmit = async (value, action) => {
     await fun(value);
-    action.resetForm(null)
+    action.resetForm(null);
   };
 
   useEffect(() => {
-    if(data?.data?.success){
-      nav("/home")
+    if (data?.data?.success) {
+      nav("/home");
+    } else {
+      nav("/");
     }
-    else{
-      nav("/")
-    }
-  },[data])
+  }, [data]);
 
   const validationSchema = yup.object({
     email: yup
@@ -55,107 +52,117 @@ const signInPage = () => {
       .matches(8, "Password should be longer than 8"),
   });
   return (
-    <AuthGuard
-     check={data?.data?.success} token={data?.data?.token}>
-      <div className=" bg-blue-500 w-screen h-screen mx-auto flex justify-center items-center">
-      <div className=" border w-[400px] bg-slate-50 p-5 rounded-lg gap-5 flex flex-col">
-        <div className=" text-center">
-          <h1 className=" text-xl font-bold">Log In</h1>
-        </div>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-          validateOnBlur={false}
-          validateOnChange={false}
-        >
-          {({ handleChange, handleBlur, values, isSubmitting }) => (
-            <>
-              <Form>
-                {data.isSuccess && <Alert variant="outlined" severity="info" sx={{mb:2}}>
-                  {data.data.message}
-                </Alert>}
-
-                <div className=" mb-5">
-                  <FormControl className=" w-full mb-5" variant="outlined">
-                    <InputLabel htmlFor="email" size="small">
-                      Email
-                    </InputLabel>
-                    <OutlinedInput
-                      size="small"
-                      id="email"
-                      name="email"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.email}
-                      label="Email"
-                    />
-                  </FormControl>
-
-                  <ErrorMessage
-                    name="email"
-                    component="p"
-                    className=" text-sm text-red-500 mb-3"
-                  />
-                </div>
-
-                <div>
-                  <FormControl className=" w-full" variant="outlined">
-                    <InputLabel htmlFor="password" size="small">
-                      Password
-                    </InputLabel>
-                    <OutlinedInput
-                      size="small"
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      label="Password"
-                    />
-                  </FormControl>
-
-                  <ErrorMessage
-                    name="password"
-                    component="p"
-                    className=" text-sm text-red-500"
-                  />
-                </div>
-
-                <Button
-                  disabled={isSubmitting}
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 2, mb: 2 }}
-                >
-                  Log In
-                  {isSubmitting && (
-                    <Loader2 className=" ml-2 h-4 w-4 animate-spin items-center" />
+    <AuthGuard check={data?.data?.success} token={data?.data?.token} path="/">
+      <div className=" bg-blue-gradient">
+      <ContainerComponents>
+        <div className=" border w-[300px] bg-white-gradient p-5 rounded-lg gap-5 flex flex-col">
+          <div className=" text-center">
+            <h1 className=" text-xl font-bold">Log In</h1>
+          </div>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+            validateOnBlur={false}
+            validateOnChange={false}
+          >
+            {({ handleChange, handleBlur, values, isSubmitting }) => (
+              <>
+                <Form>
+                  {data.isSuccess && (
+                    <Alert variant="outlined" severity="info" sx={{ mb: 2 }}>
+                      {data.data.message}
+                    </Alert>
                   )}
-                </Button>
 
-                <h2 className=" text-blue-500 text-sm underline">
-                  <Link to={"sign_up"}>You don't have an account?Sign Up</Link>
-                </h2>
-              </Form>
-            </>
-          )}
-        </Formik>
+                  <div className=" mb-5">
+                    <FormControl className=" w-full mb-5" variant="outlined">
+                      <InputLabel htmlFor="email" size="small">
+                        Email
+                      </InputLabel>
+                      <OutlinedInput
+                        size="small"
+                        id="email"
+                        name="email"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.email}
+                        label="Email"
+                      />
+                    </FormControl>
+
+                    <ErrorMessage
+                      name="email"
+                      component="p"
+                      className=" text-sm text-red-500 mb-3"
+                    />
+                  </div>
+
+                  <div>
+                    <FormControl className=" w-full" variant="outlined">
+                      <InputLabel htmlFor="password" size="small">
+                        Password
+                      </InputLabel>
+                      <OutlinedInput
+                        size="small"
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.password}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        label="Password"
+                      />
+                    </FormControl>
+
+                    <ErrorMessage
+                      name="password"
+                      component="p"
+                      className=" text-sm text-red-500"
+                    />
+                  </div>
+
+                  <Button
+                    disabled={isSubmitting}
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 2, mb: 2 }}
+                  >
+                    Log In
+                    {isSubmitting && (
+                      <Loader2 className=" ml-2 h-4 w-4 animate-spin items-center" />
+                    )}
+                  </Button>
+
+                  <h2 className="  text-sm ">
+                    <span>You don't have an account?</span>
+                    <Link className="text-blue-500 underline ps-1" to={"sign_up"}>
+                      Sign Up
+                    </Link>
+                  </h2>
+                </Form>
+              </>
+            )}
+          </Formik>
+        </div>
+      </ContainerComponents>
       </div>
-    </div>
     </AuthGuard>
   );
 };

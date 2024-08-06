@@ -11,3 +11,6 @@ export {default as DataTableComponents} from "./DataTable.components"
 
 // Loader
 export {default as LoaderComponents} from "./Loader.components"
+
+// Container 
+export {default as ContainerComponents} from "./Container.components"
